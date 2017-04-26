@@ -1,6 +1,6 @@
 <?php
 require_once('./user_serv.php');
-$username = mysql_real_escape_string($_GET["username"]);
+$username = $_GET["username"];
 
 $ser = new service();
 $array = $ser->downloadHistory($username);

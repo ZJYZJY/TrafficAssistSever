@@ -3,8 +3,8 @@ require_once('./user_serv.php');
 $json = file_get_contents("php://input");
 $data = json_decode($json, true);
 
-$username = mysql_real_escape_string($data["username"]);
-$password = mysql_real_escape_string($data["password"]);
+$username = $data["username"];
+$password = $data["password"];
 
 $ser = new service();
 if($ser->signup($username, $password)){

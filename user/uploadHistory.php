@@ -1,12 +1,12 @@
 <?php
 require_once('./user_serv.php');
 
-$accidentTags = mysql_real_escape_string($_POST['accidentTags']);
-$nickname = mysql_real_escape_string($_POST['nickname']);
-$username = mysql_real_escape_string($_POST['username']);
+$accidentTags = $_POST['accidentTags'];
+$nickname = $_POST['nickname'];
+$username = $_POST['username'];
 $longitude = (double)$_POST['longitude'];
 $latitude = (double)$_POST['latitude'];
-$filenames = mysql_real_escape_string($_POST['filenames']);
+$filenames = $_POST['filenames'];
 
 $history_json = (object)array(
   'username' => $username,
