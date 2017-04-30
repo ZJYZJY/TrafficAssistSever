@@ -109,15 +109,8 @@ class Service{
     }
 
      public function editInfomation($username,$infoType,$info){
-        switch($infoType){
-            case 1: $editInfomation_sql="call trafficassist.user_editRlname($username,$info);";break;
-            case 2: $editInfomation_sql="call trafficassist.user_editTel($username,$info);";break;
-            case 3: $editInfomation_sql="call trafficassist.user_editDl_no($username,$info);";break;
-            case 4: $editInfomation_sql="call trafficassist.user_editCar_type($username,$info);";break;
-            case 5: $editInfomation_sql="call trafficassist.user_editCar_no($username,$info);";break;
-            default:
-        }
         
+        $editInfomation_sql="call trafficassist.user_editInformation($username,$infoType,$info);";
         $db = DBManager::getInstance();
         $conn = $db->connect();
 
