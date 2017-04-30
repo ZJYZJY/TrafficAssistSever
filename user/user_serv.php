@@ -108,13 +108,13 @@ class Service{
         return false;
     }
 
-     public function editInfomation($username,$infoType,$info){
+     public function editInformation($username,$infoType,$info){
         
-        $editInfomation_sql="call trafficassist.user_editInformation($username,$infoType,$info);";
+        $editInformation_sql="call trafficassist.user_editInformation($username,$infoType,$info);";
         $db = DBManager::getInstance();
         $conn = $db->connect();
 
-        $result = $conn->query($editInfomation_sql);
+        $result = $conn->query($editInformation_sql);
         if($result === true) {
             $db->close();
             return true;

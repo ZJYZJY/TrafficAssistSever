@@ -8,7 +8,7 @@ $infoType = $data["infoType"];
 $info = $data["info"];
 
 $ser = new service();
-$result=$ser->editInfomation($username,$infoType,$info);
+$result=$ser->editInformation($username,$infoType,$info);
 if($result==true){
   $response = array(
     'code' => 200,
