@@ -2,7 +2,7 @@
 require_once('./user_serv.php');
 
 $accidentTags = $_POST['accidentTags'];
-$nickname = $_POST['nickname'];
+$realname = $_POST['realname'];
 $username = $_POST['username'];
 $longitude = (double)$_POST['longitude'];
 $latitude = (double)$_POST['latitude'];
@@ -10,7 +10,7 @@ $filenames = $_POST['filenames'];
 
 $history_json = (object)array(
   'username' => $username,
-  'nickname' => $nickname,
+  'realname' => $realname,
   'longitude' => $longitude,
   'latitude' => $latitude,
   'accidentTags' => $accidentTags,

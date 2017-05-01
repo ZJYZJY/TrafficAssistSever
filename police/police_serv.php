@@ -3,7 +3,7 @@ require_once('../dbManager.php');
 class Service{
 
     public function login($username, $password) {
-        $login_sql = "select * from police_info where Pusername = '" . $username . "' and Ppassword = '" . $password . "'";
+        $login_sql = "call trafficassist.police_login($username, $password)";
         $db = DBManager::getInstance();
         $conn = $db->connect();
 
@@ -18,7 +18,7 @@ class Service{
     }
 
     public function register($username, $password) {
-        $reg_sql = "insert into police_info(Pusername, Ppassword) values('" . $username . "','" . $password . "') ";
+        $register_sql = "call trafficassist.police_register($username, $password)";
         $db = DBManager::getInstance();
         $conn = $db->connect();
 
@@ -34,8 +34,8 @@ class Service{
 
     public function getAccLoc($x, $y, $name) {
         $min_length = 100000;
-        $getLocation_sql = "select username, location_x, location_y from accident_realtime";
-        $downloadAccTags_sql = "select * from user_history where Uusername = '" . $name . "' and isVaild = '1'";
+        $getLocation_sql = "call trafficassist.police_getLocation()";
+        $downloadAccTags_sql = "call trafficassist.police_downloadAccTags($name, '1')";
         $db = DBManager::getInstance();
         $conn = $db->connect();
 
@@ -52,8 +52,8 @@ class Service{
 
         $result = $conn->query($downloadAccTags_sql);
         while (!! $_row = $result ->fetch_object()) {
-            $tagStr = $_row ->Detail;
-            $filenameStr = $_row ->PicturePath;
+            $tagStr = $_row ->DETL;
+            $filenameStr = $_row ->PicPath;
             $tags = explode("/", $tagStr);
             $filenames = explode("/", $filenameStr);
         }
@@ -72,14 +72,14 @@ class Service{
     }
 
     public function downloadAccInfo($username) {
-        $downloadAccTags_sql = "select * from user_history where Uusername = '" . $username . "' and isVaild = '1'";
+        $downloadAccTags_sql = "call trafficassist.police_downloadAccInfo($username, '1')";
         $db = DBManager::getInstance();
         $conn = $db->connect();
 
         $result = $conn->query($downloadAccTags_sql);
         while (!! $_row = $result ->fetch_object()) {
-            $tagStr = $_row ->Detail;
-            $filenameStr = $_row ->PicturePath;
+            $tagStr = $_row ->DETL;
+            $filenameStr = $_row ->PicPath;
             $tags = explode("/", $tagStr);
             $filenames = explode("/", $filenameStr);
         }

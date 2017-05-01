@@ -1,11 +1,9 @@
 <?php
 require_once('./user_serv.php');
-$json = file_get_contents("php://input");
-$data = json_decode($json, true);
 
-$username = $data["username"];
-$infoType = $data["infoType"];
-$info = $data["info"];
+$username = $_GET["username"];
+$infoType = $_GET["infoType"];
+$info = "'".$_GET["info"]."'";
 
 $ser = new service();
 $result=$ser->editInformation($username,$infoType,$info);
@@ -22,4 +20,3 @@ if($result==true){
   );
   echo json_encode($response);
 }
-?>
