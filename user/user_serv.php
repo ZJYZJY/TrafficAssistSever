@@ -3,7 +3,7 @@ require_once('../dbManager.php');
 class Service{
 
     public function login($username, $password) {
-        $login_sql = "select * from user_info where Uusername = '" . $username . "' and Upsd = '" . $password . "'";
+        $login_sql = "call trafficassist.user_login($username,$password);";
         $db = DBManager::getInstance();
         $conn = $db->connect();
 
@@ -38,7 +38,7 @@ class Service{
     }
 
     public function signup($username, $password) {
-        $reg_sql = "insert into user_info(Uusername, Upassword) values('" . $username . "','" . $password . "') ";
+        $reg_sql = "call trafficassist.user_signup($username,$password);";
         $db = DBManager::getInstance();
         $conn = $db->connect();
 
@@ -53,9 +53,8 @@ class Service{
     }
 
     public function uploadHistory($json) {
-        $save_sql = "insert into user_history(Uusername, Unickname, longitude, latitude, Detail, PicturePath, isVaild)" .
-            "values('" . $json->username . "','" . $json->nickname . "','" . $json->longitude . "','"
-            . $json->latitude . "','" . $json->accidentTags . "','" . $json->filenames . "','1') ";
+        $$save_sql = "call trafficassist.user_uploadHistory($json->username , $json->realname , $json->longitude ,
+             $json->latitude , $json->accidentTags ,$json->filenames ,1); ";
         $db = DBManager::getInstance();
         $conn = $db->connect();
 
@@ -70,7 +69,7 @@ class Service{
     }
 
     public function downloadHistory($username) {
-        $downloadHistory_sql = "select * from user_history where Uusername = '" . $username . "'";
+        $downloadHistory_sql = "call trafficassist.user_downloadHistory($username);";
         $db = DBManager::getInstance();
         $conn = $db->connect();
 
@@ -95,8 +94,7 @@ class Service{
     }
 
     public function uploadLocation($json) {
-        $saveRealtime_sql = "insert into accident_realtime(username, location_x, location_y)" .
-            "values('" . $json->username . "','" . $json->longitude . "','" . $json->latitude . "') ";
+        $saveRealtime_sql = "call trafficassist.user_uploadLocation($json->username, $json->longitude, $json->latitude );";
         $db = DBManager::getInstance();
         $conn = $db->connect();
 
@@ -108,5 +106,22 @@ class Service{
         echo $conn->error;
         $db->close();
         return false;
+    }
+
+     public function editInformation($username,$infoType,$info){
+        
+        $editInformation_sql="call trafficassist.user_editInformation($username,$infoType,$info);";
+        $db = DBManager::getInstance();
+        $conn = $db->connect();
+
+        $result = $conn->query($editInformation_sql);
+        if($result === true) {
+            $db->close();
+            return true;
+        }
+        echo $conn->error;
+        $db->close();
+        return false;
+        
     }
 }
