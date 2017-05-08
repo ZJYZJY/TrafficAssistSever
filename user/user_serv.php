@@ -124,4 +124,21 @@ class Service{
         return false;
         
     }
+
+    public function uploadCar($json) {
+        $uploadCar_sql = "insert into date20120605(DATEDAY, TIME,CITY,CAR_ID,JD,WD,SPEED,DIRECTION) values('" . $json->DATEDAY . "','" . $json->TIME . 
+        "','" . $json->CITY . "','" . $json->CAR_ID . "','" . $json->JD . "','" . $json->WD . "','" . $json->SPEED . "','" . $json->DIRECTION . "'); ";
+        $db = DBManager::getInstance();
+        $conn = $db->connect();
+
+        $result = $conn->query($uploadCar_sql);
+        if($result === true) {
+            $db->close();
+            return true;
+        }
+        echo $conn->error;
+        $db->close();
+        return false;
+    }
+
 }
