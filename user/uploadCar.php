@@ -1,14 +1,25 @@
 <?php
 require_once('./user_serv.php');
-$DATEDAY = $_POST['DATEDAY'];
-$TIME = $_POST['TIME'];
-$CITY = $_POST['CITY'];
-$CAR_ID = $_POST['CAR_ID'];
-$JD = $_POST['JD'];
-$WD = $_POST['WD'];
-$SPEED = $_POST['SPEED'];
-$DIRECTION = $_POST['DIRECTION'];
 
+$json = file_get_contents("php://input");
+$data = json_decode($json, true);
+
+$DATEDAY = $data["DATEDAY"];
+$TIME = $data["TIME"];
+$CITY = $data["CITY"];
+$CAR_ID = $data["CAR_ID"];
+$JD = $data["JD"];
+$WD = $data["WD"];
+$SPEED = $data["SPEED"];
+$DIRECTION = $data["DIRECTION"];
+
+$ser = new service();
+
+date_default_timezone_set('Asia/Shanghai');//设定时区
+$date=date('Ymd');//获取年月日
+
+if(date('H')==0&&date('i')==0&&date('s')==0)//时，分，秒皆为0则新建数据表
+        $ser->createTable($date);
 
 $car_json = (object)array(
   'DATEDAY' => $DATEDAY,
@@ -17,22 +28,22 @@ $car_json = (object)array(
   'CAR_ID' => $CAR_ID,
   'JD' => $JD,
   'WD' => $WD,
-  'SPEED' => $SPEED,
-  'DIRECTION' => $DIRECTION,
+  'SPEED'=> $SPEED,
+  'DIRECTION'=> $DIRECTION,
+  'date'=> $date
 );
 
-$ser = new service();
 $result=$ser->uploadCar($car_json);
 if($result==true){
   $response = array(
     'code' => 200,
-    'info' => $car_json
+    'info' => '上传成功'
   );
   echo json_encode($response);
 } else {
   $response = array(
     'code' => 400,
-    'info' => $car_json
+    'info' => '上传失败'
   );
   echo json_encode($response);
 }
