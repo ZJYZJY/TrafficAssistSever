@@ -128,18 +128,18 @@ class Service{
 
     }
 
-    public function createTable($date) {
-        $createTable_sql = "create table date".$date."(
+    public function createTable($str_date) {
+        $createTable_sql = "CREATE TABLE IF NOT EXISTS DATE".$str_date."(
         `DATEDAY` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
         `TIME` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
         `CITY` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
         `CAR_ID` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-        `JD` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-        `WD` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-        `SPEED` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-        `DIRECTION` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+        `JD` double(10, 7) COLLATE utf8_unicode_ci DEFAULT NULL,
+        `WD` double(10, 7) COLLATE utf8_unicode_ci DEFAULT NULL,
+        `SPEED` double(5, 2) COLLATE utf8_unicode_ci DEFAULT NULL,
+        `DIRECTION` double(5, 2) COLLATE utf8_unicode_ci DEFAULT NULL,
         `EMPTY` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-        `RECEIVE_TIME` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
+        `RECEIVE_TIME` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
         $db = DBManager::getInstance();
         $conn = $db->connect();
@@ -155,8 +155,8 @@ class Service{
     }
 
     public function uploadCar($json) {
-        $uploadCar_sql = "insert into date".$json->date. "(DATEDAY, TIME,CITY,CAR_ID,JD,WD,SPEED,DIRECTION) values('" . $json->DATEDAY . "','" . $json->TIME . 
-        "','" . $json->CITY . "','" . $json->CAR_ID . "','" . $json->JD . "','" . $json->WD . "','" . $json->SPEED . "','" . $json->DIRECTION . "'); ";
+        $uploadCar_sql = "insert into DATE".$json->DATEDAY. "(DATEDAY, TIME,CITY,CAR_ID,JD,WD,SPEED,DIRECTION,EMPTY) values('" . $json->DATEDAY . "','" . $json->TIME . 
+        "','" . $json->CITY . "','" . $json->CAR_ID . "','" . $json->JD . "','" . $json->WD . "','" . $json->SPEED . "','" . $json->DIRECTION . "', '1;'); ";
         $db = DBManager::getInstance();
         $conn = $db->connect();
 
