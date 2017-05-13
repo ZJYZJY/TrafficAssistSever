@@ -128,8 +128,8 @@ class Service{
 
     }
 
-    public function createTable($str_date) {
-        $createTable_sql = "CREATE TABLE IF NOT EXISTS DATE".$str_date."(
+    public function createDateTable($str_date) {
+        $createDateTable_sql = "CREATE TABLE IF NOT EXISTS DATE".$str_date."(
         `DATEDAY` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
         `TIME` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
         `CITY` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -144,7 +144,7 @@ class Service{
         $db = DBManager::getInstance();
         $conn = $db->connect();
 
-        $result = $conn->query($createTable_sql);
+        $result = $conn->query($createDateTable_sql);
         if($result === true) {
             $db->close();
             return true;
@@ -170,4 +170,37 @@ class Service{
         return false;
     }
 
+    public function createCarIDTable($str_date) {
+        $createCarIDTable_sql = "CREATE TABLE IF NOT EXISTS car_id_list".$str_date."(
+        `CAR_ID` varchar(10) NOT NULL,
+        `SIGN` double DEFAULT NULL,
+         PRIMARY KEY (`CAR_ID`)
+         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+        $db = DBManager::getInstance();
+        $conn = $db->connect();
+
+        $result = $conn->query($createCarIDTable_sql);
+        if($result === true) {
+            $db->close();
+            return true;
+        }
+        echo $conn->error;
+        $db->close();
+        return false;
+    }
+
+    public function uploadCarID($json) {
+        $uploadCar_sqlID = "insert into car_id_list".$json->DATEDAY. "(CAR_ID) values('" .$json->DATEDAY."'); ";
+        $db = DBManager::getInstance();
+        $conn = $db->connect();
+
+        $result = $conn->query($uploadCar_sqlID);
+        if($result === true) {
+            $db->close();
+            return true;
+        }
+        echo $conn->error;
+        $db->close();
+        return false;
+    }
 }

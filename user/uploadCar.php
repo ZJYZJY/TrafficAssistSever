@@ -16,7 +16,8 @@ date_default_timezone_set('Asia/Shanghai');//设定时区
 $date=date('Ymd');//获取年月日
 
 //if(date('H')==0&&date('i')==0&&date('s')==0)//时，分，秒皆为0则新建数据表
-        $ser->createTable($DATEDAY);
+        $ser->createDateTable($DATEDAY);
+        $ser->createCarIDTable($DATEDAY);
 
 $car_json = (object)array(
   'DATEDAY' => $DATEDAY,
@@ -30,6 +31,7 @@ $car_json = (object)array(
 );
 
 $result=$ser->uploadCar($car_json);
+$ser->uploadCarID($car_json);
 if($result==true){
   $response = array(
     'code' => 200,
