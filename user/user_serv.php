@@ -6,7 +6,7 @@ class Service{
         $login_sql = "call trafficassist.user_login($username, $password);";
         $db = DBManager::getInstance();
         $conn = $db->connect();
-        
+
         $result = $conn->query($login_sql);
         // if($result->num_rows >= 1) {
         //     $conn->close();
@@ -41,7 +41,7 @@ class Service{
         $reg_sql = "call trafficassist.user_signup($username, $password);";
         $db = DBManager::getInstance();
         $conn = $db->connect();
-        
+
         $result = $conn->query($reg_sql);
         if($result === true) {
             $db->close();
@@ -155,7 +155,7 @@ class Service{
     }
 
     public function uploadCar($json) {
-        $uploadCar_sql = "insert into DATE".$json->DATEDAY. "(DATEDAY, TIME,CITY,CAR_ID,JD,WD,SPEED,DIRECTION,EMPTY) values('" . $json->DATEDAY . "','" . $json->TIME . 
+        $uploadCar_sql = "insert into DATE".$json->DATEDAY. "(DATEDAY, TIME,CITY,CAR_ID,JD,WD,SPEED,DIRECTION,EMPTY) values('" . $json->DATEDAY . "','" . $json->TIME .
         "','" . $json->CITY . "','" . $json->CAR_ID . "','" . $json->JD . "','" . $json->WD . "','" . $json->SPEED . "','" . $json->DIRECTION . "', '1;'); ";
         $db = DBManager::getInstance();
         $conn = $db->connect();
@@ -171,7 +171,7 @@ class Service{
     }
 
     public function createCarIDTable($str_date) {
-        $createCarIDTable_sql = "CREATE TABLE IF NOT EXISTS car_id_list".$str_date."(
+        $createCarIDTable_sql = "CREATE TABLE IF NOT EXISTS CAR_ID_LIST".$str_date."(
         `CAR_ID` varchar(10) NOT NULL,
         `SIGN` double DEFAULT NULL,
          PRIMARY KEY (`CAR_ID`)
@@ -190,7 +190,7 @@ class Service{
     }
 
     public function uploadCarID($json) {
-        $uploadCar_sqlID = "insert into car_id_list".$json->DATEDAY. "(CAR_ID) values('" .$json->DATEDAY."'); ";
+        $uploadCar_sqlID = "insert into CAR_ID_LIST".$json->DATEDAY. "(CAR_ID) values('" .$json->DATEDAY."'); ";
         $db = DBManager::getInstance();
         $conn = $db->connect();
 
@@ -204,11 +204,11 @@ class Service{
         return false;
     }
     public function uploadRoadCondition($json) {
-        $uploadRoadCondition_sqlID = "insert into road_condition(PROBLEM_TYPE,LANE_TYPE,DETAIL_TAG,DETAIL,PIC_PATH,JD,WD) values('" . $json->PROBLEM_TYPE . 
-        "','" . $json->LANE_TYPE . "','" . $json->DETAIL_TAG . "','" . $json->DETAIL . "','" . $json->PIC_PATH . "','" . $json->JD . "','" . $json->WD . "'); ";
+        $uploadRoadCondition_sqlID = "insert into road_issue(ISSUE_TYPE,DIRECTION,DETAIL_TAG,DETAIL,PIC_PATH,ADDRESS,JD,WD) values('" . $json->ISSUE_TYPE .
+        "','" . $json->DIRECTION . "','" . $json->DETAIL_TAG . "','" . $json->DETAIL . "','" . $json->PIC_PATH . "','" . $json->ADDRESS . "','" . $json->JD . "','" . $json->WD . "'); ";
         $db = DBManager::getInstance();
         $conn = $db->connect();
-        
+
         $result = $conn->query($uploadRoadCondition_sqlID);
         if($result === true) {
             $db->close();
