@@ -6,7 +6,7 @@ class Service{
         $login_sql = "call trafficassist.user_login($username, $password);";
         $db = DBManager::getInstance();
         $conn = $db->connect();
-
+        
         $result = $conn->query($login_sql);
         // if($result->num_rows >= 1) {
         //     $conn->close();
@@ -41,7 +41,7 @@ class Service{
         $reg_sql = "call trafficassist.user_signup($username, $password);";
         $db = DBManager::getInstance();
         $conn = $db->connect();
-
+        
         $result = $conn->query($reg_sql);
         if($result === true) {
             $db->close();
@@ -195,6 +195,21 @@ class Service{
         $conn = $db->connect();
 
         $result = $conn->query($uploadCar_sqlID);
+        if($result === true) {
+            $db->close();
+            return true;
+        }
+        echo $conn->error;
+        $db->close();
+        return false;
+    }
+    public function uploadRoadCondition($json) {
+        $uploadRoadCondition_sqlID = "insert into road_condition(PROBLEM_TYPE,LANE_TYPE,DETAIL_TAG,DETAIL,PIC_PATH,JD,WD) values('" . $json->PROBLEM_TYPE . 
+        "','" . $json->LANE_TYPE . "','" . $json->DETAIL_TAG . "','" . $json->DETAIL . "','" . $json->PIC_PATH . "','" . $json->JD . "','" . $json->WD . "'); ";
+        $db = DBManager::getInstance();
+        $conn = $db->connect();
+        
+        $result = $conn->query($uploadRoadCondition_sqlID);
         if($result === true) {
             $db->close();
             return true;
