@@ -19,6 +19,23 @@ $car_json = (object)array(
   'WD'=> $WD
 );
 
+//接收文件目录
+$base_path = '../AccidentImage/';
+
+$filename = $_FILES['image']['name'];
+if(is_array($filename)){
+  // print_r($filename);
+  for($i = 0; $i < count($filename); $i++){
+    $tmp_name = $_FILES["image"]["tmp_name"][$i];
+    $name = $_FILES["image"]["name"][$i];
+    $uploadfile = $base_path . $name;
+    // echo $tmp_name."\n";
+    // echo $name."\n";
+    // echo $uploadfile."\n";
+    move_uploaded_file($tmp_name, $uploadfile);
+  }
+}
+
 $ser = new service();
 $result = $ser->uploadRoadCondition($car_json);
 
