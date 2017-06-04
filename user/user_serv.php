@@ -208,7 +208,7 @@ class Service{
         "','" . $json->DIRECTION . "','" . $json->DETAIL_TAG . "','" . $json->DETAIL . "','" . $json->PIC_PATH . "','" . $json->ADDRESS . "','" . $json->JD . "','" . $json->WD . "'); ";
         $db = DBManager::getInstance();
         $conn = $db->connect();
-
+        
         $result = $conn->query($uploadRoadCondition_sqlID);
         if($result === true) {
             $db->close();
@@ -217,5 +217,61 @@ class Service{
         echo $conn->error;
         $db->close();
         return false;
+    }
+    public function getDistance($lat1, $lng1, $lat2, $lng2){  //根据经纬度计算距离 
+        $earthRadius = 6367000; //地球半径   
+        $lat1 = ($lat1 * pi() ) / 180;   
+        $lng1 = ($lng1 * pi() ) / 180;   
+        $lat2 = ($lat2 * pi() ) / 180;   
+        $lng2 = ($lng2 * pi() ) / 180;   
+        $calcLongitude = $lng2 - $lng1;   
+        $calcLatitude = $lat2 - $lat1;   
+        $stepOne = pow(sin($calcLatitude / 2), 2) + cos($lat1) * cos($lat2) * pow(sin($calcLongitude / 2), 2);   
+        $stepTwo = 2 * asin(min(1, sqrt($stepOne)));   
+        $calculatedDistance = $earthRadius * $stepTwo;   
+        return round($calculatedDistance);   
+}   
+    public function downloadRoadCondition($x,$y){
+        $downloadRoadCondition_sql="select * from road_issue;";
+        $db = DBManager::getInstance();
+        $conn = $db->connect();
+
+        $info=array();
+        $min_length=20000;
+        $result = $conn->query($downloadRoadCondition_sql);
+        while (!! $_row = $result ->fetch_object()) {
+            $Distance = $this->getDistance($x,$y,$_row->JD,$_row->WD);
+            if($Distance < $min_length) {
+                $picUrl=explode("/",$_row->PIC_PATH);
+                $issueType=$_row->ISSUE_TYPE;
+                $direction=$_row->DIRECTION;
+                $detail_tag=$_row->DETAIL_TAG ;
+                $detail=$_row->detail;
+                $address=$_row->ADDRESS;
+                $longitude = $_row->JD;
+                $latitude = $_row->WD;
+
+                $temp=array(
+                    'picUrl'=> $picUrl,
+                    'issueType'=> $issueType,
+                    'direction'=> $direction,
+                    'detail_tag'=> $detail_tag,
+                    'detail'=>$detail,
+                    'address'=>$address,
+                    'longitude'=>$longitude,
+                    'latitude'=>$latitude
+                );
+               array_push($info,$temp);
+            }
+        }
+        if($info!=null){
+            $db->close();
+            return $info;
+        }else
+            {
+                $db->close();
+                return null;
+            }
+            
     }
 }
