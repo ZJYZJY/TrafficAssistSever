@@ -22,11 +22,9 @@ $car_json = (object)array(
 );
 
 //接收文件目录
-<<<<<<< HEAD
-$base_path = '../AccidentImage/';
-=======
+
 $base_path = '../RoadIssueImage/';
->>>>>>> refs/remotes/ZJYZJY/master
+
 
 $filename = $_FILES['image']['name'];
 if(is_array($filename)){
