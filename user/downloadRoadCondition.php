@@ -1,7 +1,7 @@
 <?php
 require_once('./user_serv.php');
-$JD = $_POST['JD'];
-$WD = $_POST['WD'];
+$JD = $_POST['longitude'];
+$WD = $_POST['latitude'];
 
 $ser = new service();
 $array = $ser->downloadRoadCondition($JD,$WD);
